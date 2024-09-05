@@ -57,8 +57,7 @@ import Checkbox from 'expo-checkbox';
           )}
           name="titulo"
         />
-        {errors.firstName && <Text>This is required.</Text>}
-
+        {errors.titulo && <Text>Digite um titulo.</Text>}
 
         <Controller
           control={control}
@@ -70,6 +69,7 @@ import Checkbox from 'expo-checkbox';
             <InputField types='text' titulo={"Nota"} placeholder={'Digite a tarefa'} onChangeText={onChange} value={value}/>
           )}
         />
+        {errors.nota && <Text>Digite sua tarefa.</Text>}
         <Controller
           control={control}
           name="data"
@@ -80,6 +80,7 @@ import Checkbox from 'expo-checkbox';
             <InputField types='date' titulo={"Data"} placeholder={'Informe a data'} onChangeText={onChange} value={value}/>
           )}
         />
+        {errors.data && <Text>Informe uma data.</Text>}
 
         <View style={styles.time}>
            <Controller
@@ -92,6 +93,7 @@ import Checkbox from 'expo-checkbox';
               <InputField types="time" titulo={"Hora de Início"} placeholder={'00:00'} onChangeText={onChange} value={value}/>
             )}
           />
+          {errors.horaInicio && <Text>Digite uma hora de início.</Text>}
 
           <Controller
             control={control}
@@ -102,7 +104,8 @@ import Checkbox from 'expo-checkbox';
             render={({ field: { onChange, value } }) => (
               <InputField types='time' titulo={"Hora de Fim"} placeholder={'00:00'} onChangeText={onChange} value={value}/>
             )}
-          />
+            />
+            {errors.horaFim && <Text>Digite uma hora de fim.</Text>}
         </View>
 
         <Controller
@@ -112,28 +115,29 @@ import Checkbox from 'expo-checkbox';
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <InputField
-              types='select'
-              titulo={"Repetir"}
-              placeholder={'Nenhum'}
-              onChangeText={onChange} 
-              value={value} 
-              options={[
-                { label: 'Nenhum', value: 'Nenhum' },
-                { label: 'Sim', value: 'Sim' },
-                { label: 'Não', value: 'Não' }
-              ]}
+            types='select'
+            titulo={"Repetir"}
+            placeholder={'Nenhum'}
+            onChangeText={onChange} 
+            value={value} 
+            options={[
+              { label: 'Nenhum', value: 'Nenhum' },
+              { label: 'Sim', value: 'Sim' },
+              { label: 'Não', value: 'Não' }
+            ]}
             />
           )}
-        />
+          />
 
         </View>
+          {errors.repetir && <Text>Selecione um campo.</Text>}
 
          <View style={styles.time}>
          <View style={styles.section}>
           <Controller
             control={control}
             name="cor"
-            defaultValue={null} 
+            defaultValue={'blue'} 
             rules={{ required: true }}
             render={({ field: { onChange, value } }) => (
               <View style={styles.section}>
@@ -157,6 +161,7 @@ import Checkbox from 'expo-checkbox';
               </View>
             )}
           />
+          {errors.cor && <Text>Selecione um campo.</Text>}
 
           </View>
            

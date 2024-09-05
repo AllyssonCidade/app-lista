@@ -20,7 +20,9 @@ const InputField = ({titulo, placeholder,onChangeText, children,value, types, ..
   const [selectedValue, setSelectedValue] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
-
+  const [formattedTime, setFormattedTime] = useState('00:00');
+  const [formatDate, setFormatDate] = useState("DD/MM/AAAA")
+  
   switch(types) {  
     case 'text':
       return (
@@ -33,7 +35,7 @@ const InputField = ({titulo, placeholder,onChangeText, children,value, types, ..
       return (
         <Container >
           <Text>{titulo}</Text>
-          <TouchableOpacity {...rest}  onPress={() => setShowDatePicker(true)} style={{width: '100%',justifyContent: 'center', backgroundColor: 'white', borderRadius: 20, height: 40}}>
+          <TouchableOpacity {...rest}  onPress={() => setShowDatePicker(true)} style={styles.input}>
           
           {showDatePicker &&(
 
@@ -44,12 +46,19 @@ const InputField = ({titulo, placeholder,onChangeText, children,value, types, ..
             onChange={(event, selectedDate) => {
               setShowDatePicker(false);
               if (selectedDate) {
+                setFormatDate(selectedDate.toLocaleDateString('pt-BR',{
+                  day: 'numeric',
+                  dateStyle: 'short',
+                  weekday: 'long',
+                  year: 'numeric'
+                }))
                 onChangeText && onChangeText(selectedDate);
               }
             }}
             {...rest}
             />
           )}
+          <Text>{formatDate}</Text>
           <Feather style={styles.icon}  name="calendar" size={30} color="gray" />
           </TouchableOpacity>
         </Container>
@@ -58,21 +67,30 @@ const InputField = ({titulo, placeholder,onChangeText, children,value, types, ..
       return(
         <FieldTime>
           <Text>{titulo}</Text>
-          <TouchableOpacity onPress={() => setShowTimePicker(true)}style={{width: '100%',justifyContent: 'center', backgroundColor: 'white', borderRadius: 20, height: 40}}>
+          <TouchableOpacity onPress={() => setShowTimePicker(true)}style={styles.input}>
           {showTimePicker &&(
             <DateTimePicker
             value={value || new Date()}
             mode="time"
             display="default"
+
+            locale='pt-BR'
             onChange={(event, selectedDate) => {
               setShowTimePicker(false);
               if (selectedDate) {
+                setFormattedTime(selectedDate.toLocaleTimeString('pt-BR', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: true,
+                }))
                 onChangeText && onChangeText(selectedDate);
+                console.log( selectedDate ,'selectedDate')
               }
             }}
             {...rest}
             />
-            )}
+          )}
+            <Text>{formattedTime}</Text>
             <Feather style={styles.icon}  name="clock" size={30} color="gray" />
           </TouchableOpacity>
         </FieldTime>
@@ -97,6 +115,7 @@ const styles = StyleSheet.create({
   icon:{
     marginRight: 10,
     alignSelf: 'flex-end',
+    margin: 'auto',
   },
   input:{
     flexDirection: 'row',
