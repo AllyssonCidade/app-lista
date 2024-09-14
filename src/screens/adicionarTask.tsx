@@ -1,41 +1,37 @@
-  import React, { Children, useState, useContext } from 'react';
+  import React, { Children, useState, useContext, useEffect } from 'react';
   import { View, Text, StyleSheet, TextInput, Button, Alert, TouchableOpacity  } from 'react-native';
   import { PropsScreensApp } from '../routes/interfaces';
   import { Feather } from '@expo/vector-icons';
   import InputField, { InputFieldProps } from '../components/inputField/index'
   import { Buttom } from '../components/Buttom';
   import { useForm, Controller } from "react-hook-form"
-import Checkbox from 'expo-checkbox';
+  import { usetasksDatabase } from '../database/useTasksDatabase'
 
-  export interface tasksProps{
-    titulo: string,
-    nota: string,
-    data: string,
-    horaInicio: string,
-    horaFim: string,
-    repetir: string,
-    cor: string,
-  }
+  const AdicionarTask = ({ navigation, route }:PropsScreensApp) => {
+    const {titulo, id}:any = route.params
+    
+    useEffect(()=>{
+      console.log(titulo)
+    },[]
+    )
 
-  const AdicionarTask = ({ navigation }:PropsScreensApp) => {
-    const [selectedCheckbox, setSelectedCheckbox] = useState<string | null>(null);
-    const handleCheckboxChange = (value: string) => { 
-      setSelectedCheckbox(value);
-    };
-
+    const { createTask } = usetasksDatabase();
+    
     const {
       control,
       handleSubmit,
       formState: { errors },
     } = useForm()
-
-    const onSubmit = (data:any) => console.log(data)
-
-    const onChange = (arg:any) => {
-      return {
-        value: arg.nativeEvent.text,
-      };
-    };
+    
+    async function onSubmit(data:any) {
+      try {
+        const response = await createTask(data)
+        Alert.alert("Task cadastrada com o ID: " + response.insertedRowId)
+        navigation.navigate('Home')
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return(
       <View style={styles.container}>
@@ -170,7 +166,7 @@ import Checkbox from 'expo-checkbox';
       </View>
   );
 
-  }
+}
 
   const styles = StyleSheet.create({
     container:{
