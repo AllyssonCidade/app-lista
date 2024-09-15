@@ -6,7 +6,6 @@ export function usetasksDatabase() {
     const db = useSQLiteContext()
 
     // funcao para criar a tarefa
-
     async function createTask(data: Omit<tasksProps, "id">) {
       const statement = await db.prepareAsync(
         "INSERT INTO myTasks (titulo,nota,data,horaInicio,horaFim,repetir,cor) VALUES ($titulo,$nota,$data,$horaInicio,$horaFim,$repetir,$cor)"
@@ -32,21 +31,7 @@ export function usetasksDatabase() {
         await statement.finalizeAsync()
       }
     }
-    
-    //função para recuperar todas as tarefas
-    // async function getTasks() {
-    //   try {
-    //     const query = "SELECT * FROM myTasks WHERE name LIKE ?"
-        
-    //     const response = await db.getAllAsync<tasksProps>(
-    //       query,
-    //       `%${name}%`
-    //     )
-    //     return response
-    //   } catch (error) {
-    //     throw error
-    //   }
-    // }
+
     const getTasks= async(name: string) =>{
       try {
         const query = "SELECT * FROM myTasks WHERE titulo LIKE ?";
@@ -62,7 +47,7 @@ export function usetasksDatabase() {
     //funcao para alterar task
     async function updateTask(data: tasksProps) {
       const statement = await db.prepareAsync(
-        "UPDATE myTasks SET $titulo = titulo= $titulo ,nota= $nota ,data= $data ,horaInicio= $horaInicio ,horaFim= $horaFim ,repetir= $repetir ,cor= $cor WHERE id = $id "
+        "UPDATE myTasks SET titulo= $titulo ,nota= $nota ,data= $data ,horaInicio= $horaInicio ,horaFim= $horaFim ,repetir= $repetir ,cor= $cor WHERE id = $id"
       )
   
       try {

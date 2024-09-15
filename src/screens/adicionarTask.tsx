@@ -7,31 +7,44 @@
   import { useForm, Controller } from "react-hook-form"
   import { usetasksDatabase } from '../database/useTasksDatabase'
 
+  interface TaskParams {
+    id?: number;
+    titulo?: string;
+    nota?: string;
+    data?: string;
+    horaInicio?: string;
+    horaFim?: string;
+    repetir?: string;
+    cor?: string;
+  }
+  
   const AdicionarTask = ({ navigation, route }:PropsScreensApp) => {
-    const {titulo, id}:any = route.params
-    
-    useEffect(()=>{
-      console.log(titulo)
-    },[]
-    )
+    const {titulo, id, nota, data, horaInicio, horaFim, repetir, cor}:any = route.params || undefined ;
 
+    const { updateTask } = usetasksDatabase();
     const { createTask } = usetasksDatabase();
-    
+
     const {
       control,
       handleSubmit,
       formState: { errors },
     } = useForm()
     
-    async function onSubmit(data:any) {
+    async function onSubmit(data: any) {
       try {
-        const response = await createTask(data)
-        Alert.alert("Task cadastrada com o ID: " + response.insertedRowId)
-        navigation.navigate('Home')
-    } catch (error) {
-      console.log(error)
+        if (route.params?.id) {
+          const response = await updateTask({ ...data, id: route.params.id });
+          navigation.navigate('Home');
+        } else {
+          const response = await createTask(data);
+          Alert.alert("Task cadastrada com o ID: " + response.insertedRowId);
+          navigation.navigate('Home');
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
+    
 
   return(
       <View style={styles.container}>
@@ -45,11 +58,12 @@
 
           <Controller
           control={control}
+          defaultValue={route.params? titulo: ""}
           rules={{
             required: true,
           }}
           render={({ field: { onChange, onBlur, value } }) => (
-            <InputField types='text' onBlur={onBlur} onChangeText={value => onChange(value)} value={value} titulo={"Titulo"} placeholder={'Digite o título'}/>
+            <InputField types='text' onBlur={onBlur} onChangeText={value => onChange(value)} value={value} titulo={"Titulo"} placeholder={'Digite o título'}>{titulo}</InputField>
           )}
           name="titulo"
         />
@@ -58,22 +72,24 @@
         <Controller
           control={control}
           name="nota"
+          defaultValue={route.params? nota: ""}
           rules={{
             required: true,
           }}
           render={({ field: { onChange, value } }) => (
-            <InputField types='text' titulo={"Nota"} placeholder={'Digite a tarefa'} onChangeText={onChange} value={value}/>
+            <InputField types='text' titulo={"Nota"} placeholder={'Digite a tarefa'} onChangeText={onChange} value={value}>{nota}</InputField>
           )}
         />
         {errors.nota && <Text>Digite sua tarefa.</Text>}
         <Controller
           control={control}
+          defaultValue={route.params? route.params.data: ""}
           name="data"
           rules={{
             required: true,
           }}
           render={({ field: { onChange, value} }) => (
-            <InputField types='date' titulo={"Data"} placeholder={'Informe a data'} onChangeText={onChange} value={value}/>
+            <InputField types='date' titulo={"Data"} placeholder={'Informe a data'} onChangeText={onChange} value={value}>{data}</InputField>
           )}
         />
         {errors.data && <Text>Informe uma data.</Text>}
@@ -81,6 +97,7 @@
         <View style={styles.time}>
            <Controller
             control={control}
+            defaultValue={route.params? horaInicio: ""}
             name="horaInicio"
             rules={{
               required: false,
@@ -94,6 +111,7 @@
           <Controller
             control={control}
             name="horaFim"
+            defaultValue={route.params? horaFim: ""}
             rules={{
               required: false,
             }}
@@ -107,7 +125,7 @@
         <Controller
           control={control}
           name="repetir"
-          defaultValue={"Não"}
+          defaultValue={route.params? horaFim: "Não"}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <InputField

@@ -29,6 +29,7 @@ export const TextDone = styled.Text`
     transform: rotate(270deg);
     width: 108px;
     margin: auto;
+    text-align: center;
     
 `
 export const Divider = styled.View`

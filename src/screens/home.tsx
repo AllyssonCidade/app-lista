@@ -62,7 +62,7 @@ export const Home = ({ navigation }:PropsScreensApp) => {
         </View>  
 
         <Buttom size='xlarge' onPress={()=>
-          navigation.navigate('AdicionarTask')
+          navigation.navigate('AdicionarTask', {})
         } >+ Adicionar Task</Buttom>
 
         <FlatList style={{width: '100%'}}
@@ -73,9 +73,16 @@ export const Home = ({ navigation }:PropsScreensApp) => {
               <Task onEditTask={()=>navigation.push('AdicionarTask', {
                 id: item?.id || undefined, 
                 titulo: item?.titulo || "",
-              })}
-                onDeletTask={()=> onDeletTask(item)} id={item.id} stats={item.cor === 'red' ? 'Concluido' : 'Em andamento'} cor={item.cor} nota={item.nota} title={item.titulo} horaInicio={item.horaFim} horaFim={item.horaFim} />
-            )
+                nota: item?.nota || "",
+                data: item?.data || "" ,
+                horaInicio: item?.horaInicio || "" ,
+                horaFim: item?.horaFim || "" ,
+                repetir: item?.repetir || "" ,
+                cor: item?.cor || "" ,
+                
+      })}
+      onDeletTask={()=> onDeletTask(item)} id={item.id} stats={item.cor === 'red' ? 'Concluido' : 'Em andamento'} cor={item.cor} nota={item.nota} title={item.titulo} horaInicio={item.horaFim} horaFim={item.horaFim} />
+    )
           }
           ListEmptyComponent={() =>(
               <Task nota='Sua tarefa fica aqui' title='Titulo da Tarefa' hour='00:00' stats='Concluido'/>
