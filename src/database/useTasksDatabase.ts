@@ -32,6 +32,7 @@ export function usetasksDatabase() {
       }
     }
 
+    //função para pegar as tarefas
     const getTasks= async(name: string) =>{
       try {
         const query = "SELECT * FROM myTasks WHERE titulo LIKE ?";
@@ -44,6 +45,31 @@ export function usetasksDatabase() {
       }
     }
     
+    //função para filtrar as tarefas por cor
+    const filterColorTask= async(name: string) =>{
+      try {
+        const query = "SELECT * FROM myTasks WHERE cor LIKE ?";
+
+        const response = await db.getAllAsync<tasksProps>(query, `%${name}%` );
+
+        return(response);
+      } catch (error) {
+        throw error
+      }
+    }
+
+     //função para filtrar as tarefas por cor
+     const filterDateTask= async(name: string) =>{
+      try {
+        const query = "SELECT * FROM myTasks WHERE data LIKE ?";
+
+        const response = await db.getAllAsync<tasksProps>(query, `%${name}%` );
+
+        return(response);
+      } catch (error) {
+        throw error
+      }
+    }
     //funcao para alterar task
     async function updateTask(data: tasksProps) {
       const statement = await db.prepareAsync(
@@ -69,7 +95,6 @@ export function usetasksDatabase() {
       }
     }
     
-    
     //função para excluir uma task
     async function deletTasks(id:string) {
       try {
@@ -82,5 +107,5 @@ export function usetasksDatabase() {
         return [];
   }
   }
-  return { createTask, updateTask, getTasks, deletTasks } 
+  return { createTask, updateTask, getTasks, deletTasks, filterColorTask, filterDateTask } 
 }

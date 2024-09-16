@@ -16,13 +16,15 @@
     horaFim?: string;
     repetir?: string;
     cor?: string;
+    stats?: boolean;
   }
   
   const AdicionarTask = ({ navigation, route }:PropsScreensApp) => {
     const {titulo, id, nota, data, horaInicio, horaFim, repetir, cor}:any = route.params || undefined ;
-
     const { updateTask } = usetasksDatabase();
     const { createTask } = usetasksDatabase();
+
+    
 
     const {
       control,
@@ -94,7 +96,7 @@
         />
         {errors.data && <Text>Informe uma data.</Text>}
 
-        <View style={styles.time}>
+        <View style={styles.time}> 
            <Controller
             control={control}
             defaultValue={route.params? horaInicio: ""}
@@ -125,7 +127,7 @@
         <Controller
           control={control}
           name="repetir"
-          defaultValue={route.params? horaFim: "Não"}
+          defaultValue= "Não"
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <InputField
@@ -179,7 +181,7 @@
 
           </View>
            
-          <Buttom title="Submit" onPress={(handleSubmit(onSubmit))} >Criar tarefa</Buttom>
+          <Buttom title="Submit" onPress={(handleSubmit(onSubmit))}>{route.params.id? "Editar Tarefa": "Criar tarefa"}</Buttom>
         </View> 
       </View>
   );

@@ -23,8 +23,7 @@ const InputField = ({titulo, placeholder,onChangeText, children,value, types, ..
   const [timeStringValue, setTimeStringValue] = useState('00:00');
   const [dataStringValue, setDataStringValue] = useState("HH:MM");
 
-
-  const handleDateChange = (event, selectedDate) => {
+  const handleDateChange = (event, selectedDate):any => {
     setShowDatePicker(false);
     if (selectedDate) {
       const formatedDate = selectedDate.toLocaleDateString('pt-BR', {
@@ -69,7 +68,7 @@ const InputField = ({titulo, placeholder,onChangeText, children,value, types, ..
             <DateTimePicker
             value={new Date()}
             mode="date"
-            display="default"
+            display="inline"
             onChange={handleDateChange}
             {...rest}
             />

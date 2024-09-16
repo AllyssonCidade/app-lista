@@ -14,6 +14,7 @@ export const Home = ({ navigation }:PropsScreensApp) => {
   const [search, setSearch] = useState("");
   const { getTasks } = usetasksDatabase();
   const { deletTasks } = usetasksDatabase();
+  const { filterColorTask } = usetasksDatabase();
 
   const searchTasks= async()=>{
     try {
@@ -23,7 +24,6 @@ export const Home = ({ navigation }:PropsScreensApp) => {
       
     }
   }
-
   useFocusEffect(
     React.useCallback(() => {
       searchTasks();
@@ -39,8 +39,13 @@ export const Home = ({ navigation }:PropsScreensApp) => {
     }
   }
 
-  const onEditTask = async(item: any) =>{
-
+  const onFilterColor = async(cor:string)=>{
+    try {
+      const response = await filterColorTask(cor)
+      setTasks(response)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -56,9 +61,9 @@ export const Home = ({ navigation }:PropsScreensApp) => {
 
         <DateCart />
         <View style={{paddingHorizontal: 15, width: '100%', flexDirection: 'row', justifyContent: 'space-between'}} >
-          <Buttom size="small">Todos</Buttom>
-          <Buttom size="small" color='white'>Em aberto</Buttom>
-          <Buttom size="small" color='white'>Finalizado</Buttom>
+          <Buttom onPress={()=> onFilterColor("")} size="small">Todos</Buttom>
+          <Buttom onPress={()=>onFilterColor("orange")} size="small" color='white'>Em aberto</Buttom>
+          <Buttom onPress={()=>onFilterColor("red")} size="small" color='white'>Finalizado</Buttom>
         </View>  
 
         <Buttom size='xlarge' onPress={()=>
@@ -78,16 +83,14 @@ export const Home = ({ navigation }:PropsScreensApp) => {
                 horaInicio: item?.horaInicio || "" ,
                 horaFim: item?.horaFim || "" ,
                 repetir: item?.repetir || "" ,
-                cor: item?.cor || "" ,
-                
+                cor: item?.cor || "" ,                
       })}
       onDeletTask={()=> onDeletTask(item)} id={item.id} stats={item.cor === 'red' ? 'Concluido' : 'Em andamento'} cor={item.cor} nota={item.nota} title={item.titulo} horaInicio={item.horaFim} horaFim={item.horaFim} />
     )
           }
-          ListEmptyComponent={() =>(
-              <Task nota='Sua tarefa fica aqui' title='Titulo da Tarefa' hour='00:00' stats='Concluido'/>
-          )}
+          
         />
+
 
       </View> 
     
