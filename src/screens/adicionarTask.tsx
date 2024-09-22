@@ -1,6 +1,6 @@
   import React, { Children, useState, useContext, useEffect } from 'react';
   import { View, Text, StyleSheet, TextInput, Button, Alert, TouchableOpacity  } from 'react-native';
-  import { PropsScreensApp } from '../routes/interfaces';
+  import { PropsScreensApp, PropsStackRoutes } from '../routes/interfaces';
   import { Feather } from '@expo/vector-icons';
   import InputField, { InputFieldProps } from '../components/inputField/index'
   import { Buttom } from '../components/Buttom';
@@ -19,12 +19,10 @@
     stats?: boolean;
   }
   
-  const AdicionarTask = ({ navigation, route }:PropsScreensApp) => {
+  const AdicionarTask = ({ navigation, route }:PropsStackRoutes | any) => {
     const {titulo, id, nota, data, horaInicio, horaFim, repetir, cor}:any = route.params || undefined ;
     const { updateTask } = usetasksDatabase();
     const { createTask } = usetasksDatabase();
-
-    
 
     const {
       control,
@@ -40,6 +38,7 @@
         } else {
           const response = await createTask(data);
           Alert.alert("Task cadastrada com o ID: " + response.insertedRowId);
+          console.log(data.data)
           navigation.navigate('Home');
         }
       } catch (error) {
@@ -62,6 +61,7 @@
           control={control}
           defaultValue={route.params? titulo: ""}
           rules={{
+            maxLength: 40,
             required: true,
           }}
           render={({ field: { onChange, onBlur, value } }) => (
@@ -69,20 +69,21 @@
           )}
           name="titulo"
         />
-        {errors.titulo && <Text>Digite um titulo.</Text>}
+        {errors.titulo && <Text style={styles.erro}>O titulo deve ter entre 1 e 40 caracters</Text>}
 
         <Controller
           control={control}
           name="nota"
           defaultValue={route.params? nota: ""}
           rules={{
+            maxLength:40,
             required: true,
           }}
           render={({ field: { onChange, value } }) => (
             <InputField types='text' titulo={"Nota"} placeholder={'Digite a tarefa'} onChangeText={onChange} value={value}>{nota}</InputField>
           )}
         />
-        {errors.nota && <Text>Digite sua tarefa.</Text>}
+        {errors.nota && <Text style={styles.erro}>A tarefa deve ter entre 1 e 40 caracters</Text>}
         <Controller
           control={control}
           defaultValue={route.params? route.params.data: ""}
@@ -94,7 +95,7 @@
             <InputField types='date' titulo={"Data"} placeholder={'Informe a data'} onChangeText={onChange} value={value}>{data}</InputField>
           )}
         />
-        {errors.data && <Text>Informe uma data.</Text>}
+        {errors.data && <Text style={styles.erro}>Informe uma data.</Text>}
 
         <View style={styles.time}> 
            <Controller
@@ -108,7 +109,7 @@
               <InputField types="time" titulo={"Hora de Início"} placeholder={'00:00'} onChangeText={onChange} value={value}/>
             )}
           />
-          {errors.horaInicio && <Text>Digite uma hora de início.</Text>}
+          {errors.horaInicio && <Text style={styles.erro}>Digite uma hora de início.</Text>}
 
           <Controller
             control={control}
@@ -121,7 +122,7 @@
               <InputField types='time' titulo={"Hora de Fim"} placeholder={'00:00'} onChangeText={onChange} value={value}/>
             )}
             />
-            {errors.horaFim && <Text>Digite uma hora de fim.</Text>}
+            {errors.horaFim && <Text style={styles.erro}>Digite uma hora de fim.</Text>}
         </View>
 
         <Controller
@@ -146,7 +147,7 @@
           />
 
         </View>
-          {errors.repetir && <Text>Selecione um campo.</Text>}
+          {errors.repetir && <Text style={styles.erro}>Selecione um campo.</Text>}
 
          <View style={styles.time}>
          <View style={styles.section}>
@@ -177,7 +178,7 @@
               </View>
             )}
           />
-          {errors.cor && <Text>Selecione um campo.</Text>}
+          {errors.cor && <Text style={styles.erro}>Selecione um campo.</Text>}
 
           </View>
            
@@ -223,6 +224,11 @@
       width: '100%',
       display: 'flex',
       flexDirection: 'row',
+    },
+    erro:{
+      marginTop: -15,
+      color: 'red',
+      fontWeight: 'light',
     },
     section: {
       alignSelf: 'flex-start',

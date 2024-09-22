@@ -10,8 +10,18 @@ export type PropsStackRoutes = {
         horaFim?: string;
         repetir?: string;
         cor?: string;
+        route?:any;
       };
-    Home: undefined;
+    Home: undefined | {
+      id?: string;
+      titulo?: string;
+      nota?: string;
+      data?: string;
+      horaInicio?: string;
+      horaFim?: string;
+      repetir?: string;
+      cor?: string;
+    };
 }
 
 export type PropsScreensApp = NativeStackScreenProps<PropsStackRoutes>

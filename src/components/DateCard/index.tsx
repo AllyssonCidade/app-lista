@@ -3,7 +3,7 @@ import { Container, ContainerSelectedDate, TextContainer, TextContainerDay, Text
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useState, useEffect } from "react";
 
-export function DateCart() {
+export function DateCart({ onChangeDate }: { onChangeDate: (date: Date) => void }) {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [month, setMonth] = useState("");
@@ -35,11 +35,11 @@ export function DateCart() {
             setYear(formatDate(selectedDate, { year: 'numeric' }));
 
             const subsequentDates = getSubsequentDates(selectedDate);
-
             setSubsequentDates(subsequentDates);
+            onChangeDate(selectedDate)
         }
     };
-
+    
     useEffect(() => {
         setDayOfWeek(formatDate(selectedDate, { weekday: 'short' }));
         setDay(formatDate(selectedDate, { day: '2-digit' }));

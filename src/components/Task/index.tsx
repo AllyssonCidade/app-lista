@@ -22,13 +22,13 @@ export function Task({onDeletTask,onEditTask, onDoneTask, title, cor, horaInicio
     return(
         <Container style={{backgroundColor: cor}} onPress={onPress}> 
             <ViewFlexColumn>
-                <Title >{title}</Title>
+                <Title numberOfLines={1} >{title}</Title>
                 <View style={{display: 'flex', flexDirection:'row'}}>
                     <Text>{horaInicio}</Text>
                     <Text> - </Text>
                     <Text>{horaFim}</Text>
                 </View>
-                <Text>{nota}</Text>
+                <Text numberOfLines={2} >{nota}</Text>
             </ViewFlexColumn>
             <ViewFlexRow>
                 <View style={{display:'flex', gap:5 }}>

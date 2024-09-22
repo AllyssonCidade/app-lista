@@ -11,37 +11,42 @@ import { useFocusEffect } from 'expo-router';
 
 export const Home = ({ navigation }:PropsScreensApp) => {
   const [tasks, setTasks] = useState<any>([]);
-  const [search, setSearch] = useState("");
-  const { getTasks } = usetasksDatabase();
   const { deletTasks } = usetasksDatabase();
-  const { filterColorTask } = usetasksDatabase();
+  const { filterTask } = usetasksDatabase();  
 
-  const searchTasks= async()=>{
-    try {
-      const response = await getTasks(search)
-      setTasks(response)
-    } catch (error) {
-      
-    }
-  }
   useFocusEffect(
     React.useCallback(() => {
-      searchTasks();
-    }, [search])
+      onFilter("");
+    }, [])
   );
   
+  const handleDateChange = async(date: Date) => {
+    try {
+      const formatedDate:any = date.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      });
+      const response = await filterTask(formatedDate)
+      setTasks( response);
+      console.log(response)
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
   const onDeletTask = async(item:any) =>{
     try {
       await deletTasks(item.id)
-      searchTasks()
+      onFilter("")
     } catch (error) {
       console.log('erro ao deletar task')
     }
   }
 
-  const onFilterColor = async(cor:string)=>{
+  const onFilter = async(data:string)=>{
     try {
-      const response = await filterColorTask(cor)
+      const response = await filterTask(data)
       setTasks(response)
     } catch (error) {
       console.log(error)
@@ -59,11 +64,11 @@ export const Home = ({ navigation }:PropsScreensApp) => {
           </View>
         </View>
 
-        <DateCart />
+        <DateCart onChangeDate={handleDateChange}/>
         <View style={{paddingHorizontal: 15, width: '100%', flexDirection: 'row', justifyContent: 'space-between'}} >
-          <Buttom onPress={()=> onFilterColor("")} size="small">Todos</Buttom>
-          <Buttom onPress={()=>onFilterColor("orange")} size="small" color='white'>Em aberto</Buttom>
-          <Buttom onPress={()=>onFilterColor("red")} size="small" color='white'>Finalizado</Buttom>
+          <Buttom onPress={()=> onFilter("")} size="small">Todos</Buttom>
+          <Buttom onPress={()=>onFilter("orange")} size="small" color='white'>Em aberto</Buttom>
+          <Buttom onPress={()=>onFilter("red")} size="small" color='white'>Finalizado</Buttom>
         </View>  
 
         <Buttom size='xlarge' onPress={()=>
@@ -100,8 +105,9 @@ export const Home = ({ navigation }:PropsScreensApp) => {
 
 const styles = StyleSheet.create({
   container:{
-    paddingTop: 20,
     flex: 1,
+    paddingTop: 20,
+    paddingBottom: 170,
     backgroundColor: '#8fe1d781',
   },
 

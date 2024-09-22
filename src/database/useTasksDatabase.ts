@@ -10,7 +10,6 @@ export function usetasksDatabase() {
       const statement = await db.prepareAsync(
         "INSERT INTO myTasks (titulo,nota,data,horaInicio,horaFim,repetir,cor) VALUES ($titulo,$nota,$data,$horaInicio,$horaFim,$repetir,$cor)"
       )
-  
       try {
         const result = await statement.executeAsync({
           $titulo: data.titulo,
@@ -45,31 +44,19 @@ export function usetasksDatabase() {
       }
     }
     
-    //função para filtrar as tarefas por cor
-    const filterColorTask= async(name: string) =>{
+    //função para filtrar as tarefas
+    const filterTask= async(name: string) =>{
       try {
-        const query = "SELECT * FROM myTasks WHERE cor LIKE ?";
+        const query = "SELECT * FROM myTasks WHERE CONCAT(cor, data) LIKE ?";
 
         const response = await db.getAllAsync<tasksProps>(query, `%${name}%` );
-
+        console.log(name)
         return(response);
       } catch (error) {
         throw error
       }
     }
 
-     //função para filtrar as tarefas por cor
-     const filterDateTask= async(name: string) =>{
-      try {
-        const query = "SELECT * FROM myTasks WHERE data LIKE ?";
-
-        const response = await db.getAllAsync<tasksProps>(query, `%${name}%` );
-
-        return(response);
-      } catch (error) {
-        throw error
-      }
-    }
     //funcao para alterar task
     async function updateTask(data: tasksProps) {
       const statement = await db.prepareAsync(
@@ -107,5 +94,5 @@ export function usetasksDatabase() {
         return [];
   }
   }
-  return { createTask, updateTask, getTasks, deletTasks, filterColorTask, filterDateTask } 
+  return { createTask, updateTask, getTasks, deletTasks, filterTask } 
 }
