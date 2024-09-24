@@ -6,6 +6,8 @@ import { Home } from '../screens/home';
 import AuthProvider from '@/src/contexts/authContext'
 import { SQLiteProvider } from 'expo-sqlite';
 import { initializeDatabase } from '../database/initializeDatabase';
+import { SplashScreen } from '../screens/splashScreen';
+import { Login } from '../screens/login';
 
 const Stack = createNativeStackNavigator<PropsStackRoutes>();
 
@@ -14,6 +16,8 @@ const AppNavigation = () => {
     <SQLiteProvider databaseName="myDatabase.db" onInit={initializeDatabase}>
       <AuthProvider>
         <Stack.Navigator >
+          <Stack.Screen name="SplashScreen" component={SplashScreen} options={{headerShown: false }} />
+          <Stack.Screen name="Login" component={Login} options={{headerShown: false }} />
           <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
           <Stack.Screen name="AdicionarTask" component={AdicionarTask} options={{ headerShown: false }} />
         </Stack.Navigator>

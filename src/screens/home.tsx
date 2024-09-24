@@ -102,13 +102,12 @@ export const Home = ({ navigation }:PropsScreensApp) => {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container:{
     flex: 1,
     paddingTop: 20,
     paddingBottom: 170,
-    backgroundColor: '#8fe1d781',
+    backgroundColor: '#8fe1d745',
   },
 
   containerFull:{

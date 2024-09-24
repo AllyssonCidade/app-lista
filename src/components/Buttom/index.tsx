@@ -1,5 +1,6 @@
 import { GestureResponderEvent, TouchableOpacity, Text } from "react-native";
 import styles from "./styles";
+import { ReactElement } from "react";
 
 export type ButtomProps = {
     size?: 'small' | 'medium' | 'large' | 'xlarge'
@@ -12,9 +13,10 @@ export type ButtomProps = {
 export function Buttom({ children, size= 'medium', color = "blue", onPress, ...props }: ButtomProps) {
     return (
         <TouchableOpacity 
-            style={[styles.wrapper, styles[size], {backgroundColor: styles[color].backgroundColor}]}  onPress={onPress} {...props}>
-            <Text style={[styles.text, { fontSize: styles[size].fontSize, fontWeight: styles[size].fontWeight, color: styles[color].color}]} >
- {children}</Text>
+            style={[styles.wrapper, styles[size], styles[color]]}  onPress={onPress} {...props}>
+            <Text style={[styles.text, { fontSize: styles[size].fontSize, color: styles[color].color }]}>
+                {children}
+            </Text>
         </TouchableOpacity>
     );
 }
