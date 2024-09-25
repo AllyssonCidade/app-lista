@@ -16,7 +16,7 @@ function Settings({navigation}:PropsScreensApp) {
       <Buttom size='xlarge' onPress={()=> navigation.navigate('AtualizarDados')} >Editar dados</Buttom>
       <Buttom size='xlarge' onPress={()=> navigation.navigate('Sobre')}>Sobre</Buttom>
       <Buttom size='xlarge' onPress={()=> navigation.navigate('PoliticaDePrivacidade')}>Política de privacidade</Buttom>
-      <Buttom style={styles.logout} size='medium'>Logout</Buttom>
+      <Buttom onPress={()=> navigation.navigate('SplashScreen')} style={styles.logout} size='medium'>Logout</Buttom>
     </View>
   )
 }

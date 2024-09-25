@@ -59,7 +59,7 @@ export const Home = ({ navigation }:PropsScreensApp) => {
         <View style={{paddingHorizontal: 15, width: '100%', flexDirection: 'row', justifyContent: 'space-between'}} >
           <Text style={{fontSize: 18}}>Olá, Ryan</Text>
           <View style={{gap: 20, flexDirection: 'row', justifyContent: 'space-between'}} >
-            <Feather name="bell" size={40} color="black" />
+            <Feather onPress={()=> navigation.navigate('Notificacoes')} name="bell" size={40} color="black" />
             <Feather onPress={()=> navigation.navigate('Settings')} name="settings" size={40} fil color="black" />
           </View>
         </View>
