@@ -60,7 +60,7 @@ export const Home = ({ navigation }:PropsScreensApp) => {
           <Text style={{fontSize: 18}}>Olá, Ryan</Text>
           <View style={{gap: 20, flexDirection: 'row', justifyContent: 'space-between'}} >
             <Feather name="bell" size={40} color="black" />
-            <Feather name="settings" size={40} fil color="black" />
+            <Feather onPress={()=> navigation.navigate('Settings')} name="settings" size={40} fil color="black" />
           </View>
         </View>
 

@@ -16,7 +16,7 @@ export type InputFieldProps = {
   [key: string]: any,
 } & IInputProps
 
-const InputField = ({titulo, placeholder,onChangeText, children,value, types, ...rest}:InputFieldProps) => {
+const InputField = ({titulo, placeholder,onChangeText, secureTextEntry, children,value, types, ...rest}:InputFieldProps) => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
@@ -54,7 +54,7 @@ const InputField = ({titulo, placeholder,onChangeText, children,value, types, ..
       return (
         <Container >
             <Text >{titulo}</Text>
-            <Input onChangeText={onChangeText} placeholder={placeholder}>{children}</Input>
+            <Input secureTextEntry={secureTextEntry} onChangeText={onChangeText} placeholder={placeholder}>{children}</Input>
         </Container> 
         );
     case 'date':

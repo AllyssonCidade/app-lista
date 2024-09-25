@@ -49,6 +49,7 @@
 
   return(
       <View style={styles.container}>
+        
         <View style={styles.header}>
           <Text style={styles.title} >
             Adicionar Tarefa</Text>

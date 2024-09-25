@@ -1,4 +1,4 @@
-import { GestureResponderEvent, TouchableOpacity, Text } from "react-native";
+import { GestureResponderEvent, TouchableOpacity, Text, ViewStyle } from "react-native";
 import styles from "./styles";
 import { ReactElement } from "react";
 
@@ -8,12 +8,13 @@ export type ButtomProps = {
     color?: 'red' | 'blue' | 'white'
     onPress?: (event: GestureResponderEvent) => void
     title?: string
+    style?: ViewStyle 
 }
 
-export function Buttom({ children, size= 'medium', color = "blue", onPress, ...props }: ButtomProps) {
+export function Buttom({ children, size= 'medium', color = "blue", onPress,style, ...props }: ButtomProps) {
     return (
         <TouchableOpacity 
-            style={[styles.wrapper, styles[size], styles[color]]}  onPress={onPress} {...props}>
+            style={[styles.wrapper, styles[size], styles[color], style]}  onPress={onPress} {...props}>
             <Text style={[styles.text, { fontSize: styles[size].fontSize, color: styles[color].color }]}>
                 {children}
             </Text>
