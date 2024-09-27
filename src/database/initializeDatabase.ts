@@ -15,7 +15,16 @@ export async function initializeDatabase(database: SQLiteDatabase) {
         cor TEXT NOT NULL
       );
     `);
-    console.log('Tabela myTasks criada ou já existe.');
+    await database.execAsync(`
+      CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        email TEXT NOT NULL,
+        senha TEXT NOT NULL
+      );
+    `);
+    
+    console.log('Tabelas criadas ou já existes.');
   } catch (error) {
     console.error('Erro ao criar a tabela myTasks:', error);
   }

@@ -3,8 +3,22 @@ import { Buttom } from "../components/Buttom"
 import { PropsScreensApp } from "../routes/interfaces"
 import circles from "@/assets/images/circles.png";
 import InputField from "../components/inputField";
+import { useUserDatabase } from "../database/useUserDatabase";
+import { useState } from "react";
 
 export const Login= ({ navigation }:PropsScreensApp)=>{
+    const { readUser } = useUserDatabase();
+    const[senha, setSenha]=useState("")
+    const[email, setEmail]=useState("")
+
+    const handleLogin=  async()=>{
+        try {
+            await readUser(email, senha);
+            console.log("logado")
+        } catch (error) {
+            console.log("erro:", error)
+        }
+    }
     return(
         <>
             <View style={styles.container}>
@@ -12,13 +26,13 @@ export const Login= ({ navigation }:PropsScreensApp)=>{
             <Text style={{fontSize: 20, fontWeight: 'bold', marginBottom: 50}}>Seja Bem-vindo</Text>
             <Text>Vamos ajudar a cumprir suas tarefas.</Text>
             <View style={styles.inputContainer}>
-                <InputField  placeholder="Digite seu e-mail" types="text" />
-                <InputField  placeholder="Digite sua senha" secureTextEntry types="text" />
+                <InputField value={email} onChangeText={setEmail} placeholder="Digite seu e-mail" types="text" />
+                <InputField value={senha} onChangeText={setSenha} placeholder="Digite sua senha" secureTextEntry types="text" />
                 <Text style={styles.linkText} onPress={()=>{ navigation.navigate("RecuperarSenha")}}>Esqueceu a senha?</Text>
             </View>
             <TouchableOpacity>
             </TouchableOpacity>
-            <Buttom size="xlarge" onPress={()=> navigation.navigate('Home')}>Login</Buttom>
+            <Buttom size="xlarge" onPress={handleLogin}>Login</Buttom>
             <View style={{display:'flex', flexDirection: 'row'}}>
                 <Text style={styles.p}>Não possui conta?</Text>
                 <Text style={styles.linkText} onPress={()=> navigation.navigate('Cadastro')} >Cadastrar</Text>

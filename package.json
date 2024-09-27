@@ -19,6 +19,8 @@
     "@react-native-community/datetimepicker": "8.0.1",
     "@react-native-picker/picker": "^2.7.7",
     "@react-navigation/native": "^6.0.2",
+    "bcrypt-ts": "^5.0.2",
+    "bcryptjs": "^2.4.3",
     "expo": "~51.0.28",
     "expo-checkbox": "~3.0.0",
     "expo-constants": "~16.0.2",
@@ -47,6 +49,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@types/bcryptjs": "^2.4.6",
     "@types/jest": "^29.5.12",
     "@types/react": "~18.2.45",
     "@types/react-test-renderer": "^18.0.7",

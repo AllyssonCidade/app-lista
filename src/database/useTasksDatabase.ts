@@ -1,5 +1,5 @@
 import { useSQLiteContext } from "expo-sqlite"
-import { tasksProps } from "../utils/types"
+import { tasksProps } from "../utils/types.module"
 
 export function usetasksDatabase() {
     //retornando o db que foi iniciado em initializeDatabase.ts
@@ -62,7 +62,6 @@ export function usetasksDatabase() {
       const statement = await db.prepareAsync(
         "UPDATE myTasks SET titulo= $titulo ,nota= $nota ,data= $data ,horaInicio= $horaInicio ,horaFim= $horaFim ,repetir= $repetir ,cor= $cor WHERE id = $id"
       )
-  
       try {
         await statement.executeAsync({
           $id: data.id,

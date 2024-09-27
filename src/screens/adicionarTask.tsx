@@ -1,24 +1,12 @@
-  import React, { Children, useState, useContext, useEffect } from 'react';
-  import { View, Text, StyleSheet, TextInput, Button, Alert, TouchableOpacity  } from 'react-native';
-  import { PropsScreensApp, PropsStackRoutes } from '../routes/interfaces';
+  import React from 'react';
+  import { View, Text, StyleSheet, Alert, TouchableOpacity  } from 'react-native';
+  import { PropsStackRoutes } from '../routes/interfaces';
   import { Feather } from '@expo/vector-icons';
-  import InputField, { InputFieldProps } from '../components/inputField/index'
+  import InputField from '../components/inputField/index'
   import { Buttom } from '../components/Buttom';
   import { useForm, Controller } from "react-hook-form"
   import { usetasksDatabase } from '../database/useTasksDatabase'
 
-  interface TaskParams {
-    id?: number;
-    titulo?: string;
-    nota?: string;
-    data?: string;
-    horaInicio?: string;
-    horaFim?: string;
-    repetir?: string;
-    cor?: string;
-    stats?: boolean;
-  }
-  
   const AdicionarTask = ({ navigation, route }:PropsStackRoutes | any) => {
     const {titulo, id, nota, data, horaInicio, horaFim, repetir, cor}:any = route.params || undefined ;
     const { updateTask } = usetasksDatabase();
