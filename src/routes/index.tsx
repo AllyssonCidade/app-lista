@@ -12,7 +12,6 @@ const AppNavigation = () => {
   
   const { isAuthenticated } = useContext(AuthContext);
   
-  console.log('autenticate no auth',isAuthenticated)
   return (
     <>
       <StatusBar hidden barStyle={'dark-content'} backgroundColor="#8fe1d745" />

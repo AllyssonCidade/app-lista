@@ -7,6 +7,7 @@ export interface tasksProps{
     repetir: string,
     cor: string,
     id: string,
+    userId: number,
 }
 export type UserProps = {
     nome: string;

@@ -21,6 +21,7 @@ export const AuthProvider = ({children}:any)=>{
             const user = await readUser(email, senha); 
             if (user) {
                 setIsAutenticated(true)
+                setUser(user)
                 return { success: true, user }; 
             } else {
                 return { success: false, error: 'Usuário não encontrado ou senha incorreta.' };
@@ -32,6 +33,7 @@ export const AuthProvider = ({children}:any)=>{
 
     const signOut = () => {
         setUser(null); 
+        setIsAutenticated(false)
     };
     
     return (

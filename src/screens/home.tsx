@@ -1,25 +1,27 @@
 import { Buttom } from '@/src/components/Buttom';
 import { DateCart } from '@/src/components/DateCard';
 import { Task } from '@/src/components/Task';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Feather from '@expo/vector-icons/Feather';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { PropsScreensApp } from '../routes/interfaces';
 import { usetasksDatabase } from '../database/useTasksDatabase'
 import { tasksProps } from '../utils/types.module';
 import { useFocusEffect } from 'expo-router';
+import { AuthContext } from '../contexts/auth';
 
 export const Home = ({ navigation }:PropsScreensApp) => {
   const [tasks, setTasks] = useState<any>([]);
   const { deletTasks } = usetasksDatabase();
   const { filterTask } = usetasksDatabase();  
-
+  const { user } = useContext(AuthContext); 
+  
   useFocusEffect(
     React.useCallback(() => {
       onFilter("");
-    }, [])
+    }, [user,])
   );
-  
+
   const handleDateChange = async(date: Date) => {
     try {
       const formatedDate:any = date.toLocaleDateString('pt-BR', {
@@ -29,7 +31,6 @@ export const Home = ({ navigation }:PropsScreensApp) => {
       });
       const response = await filterTask(formatedDate)
       setTasks( response);
-      console.log(response)
     } catch (error) {
       console.log(error)
     }
@@ -43,7 +44,7 @@ export const Home = ({ navigation }:PropsScreensApp) => {
       console.log('erro ao deletar task')
     }
   }
-
+  
   const onFilter = async(data:string)=>{
     try {
       const response = await filterTask(data)
@@ -57,7 +58,7 @@ export const Home = ({ navigation }:PropsScreensApp) => {
     <View style={styles.container}>
       <View style={styles.containerFull}>
         <View style={{paddingHorizontal: 15, width: '100%', flexDirection: 'row', justifyContent: 'space-between'}} >
-          <Text style={{fontSize: 18}}>Olá, Ryan</Text>
+          <Text style={{fontSize: 18}}>Olá, {user?.nome}</Text>
           <View style={{gap: 20, flexDirection: 'row', justifyContent: 'space-between'}} >
             <Feather onPress={()=> navigation.navigate('Notificacoes')} name="bell" size={40} color="black" />
             <Feather onPress={()=> navigation.navigate('Settings')} name="settings" size={40} fil color="black" />

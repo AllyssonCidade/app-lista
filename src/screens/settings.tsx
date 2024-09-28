@@ -1,10 +1,21 @@
 import { Feather } from '@expo/vector-icons'
-import React from 'react'
+import React, { useContext } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import { PropsScreensApp } from '../routes/interfaces'
 import { Buttom } from '../components/Buttom'
+import { AuthContext } from '../contexts/auth'
 
 function Settings({navigation}:PropsScreensApp) {
+  const { signOut } = useContext(AuthContext); 
+
+  function handleLogout() {
+    try {
+            const result = signOut();
+        } catch (error) {
+            console.log("erro:", error);
+        }
+    };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -16,7 +27,7 @@ function Settings({navigation}:PropsScreensApp) {
       <Buttom size='xlarge' onPress={()=> navigation.navigate('AtualizarDados')} >Editar dados</Buttom>
       <Buttom size='xlarge' onPress={()=> navigation.navigate('Sobre')}>Sobre</Buttom>
       <Buttom size='xlarge' onPress={()=> navigation.navigate('PoliticaDePrivacidade')}>Política de privacidade</Buttom>
-      <Buttom onPress={()=> navigation.navigate('SplashScreen')} style={styles.logout} size='medium'>Logout</Buttom>
+      <Buttom onPress={handleLogout} style={styles.logout} size='medium'>Logout</Buttom>
     </View>
   )
 }

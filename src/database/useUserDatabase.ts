@@ -8,14 +8,11 @@ export function useUserDatabase() {
 
   // funcao para criar usuário 
   async function createUser({ nome, email, senha }: Omit<UserProps, "id">) {
-    const hash = hashSync(senha, 5);
-    console.log("recebidos", nome, email, senha)
-    
+    const hash = hashSync(senha, 5);    
     const statement = await db.prepareAsync(
       "INSERT INTO users (nome,email,senha) VALUES ($nome,$email,$senha)"
     )
     try {
-      console.log("iniciando com", nome, email, hash)
       const result = await statement.executeAsync({
         $nome: nome,
         $email: email,
@@ -29,7 +26,7 @@ export function useUserDatabase() {
       await statement.finalizeAsync()
     }
   }
-
+  
   // funcao para retornar usuário
   const readUser = async (email: string, senha: string): Promise<UserProps> => {
     try {

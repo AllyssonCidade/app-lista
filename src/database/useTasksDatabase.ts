@@ -1,15 +1,25 @@
-import { useSQLiteContext } from "expo-sqlite"
+import { SQLiteDatabase, useSQLiteContext } from "expo-sqlite"
 import { tasksProps } from "../utils/types.module"
+import { useContext } from "react";
+import { AuthContext } from "../contexts/auth";
 
 export function usetasksDatabase() {
     //retornando o db que foi iniciado em initializeDatabase.ts
     const db = useSQLiteContext()
+    const { user } = useContext(AuthContext); 
+
+
 
     // funcao para criar a tarefa
     async function createTask(data: Omit<tasksProps, "id">) {
+      
       const statement = await db.prepareAsync(
-        "INSERT INTO myTasks (titulo,nota,data,horaInicio,horaFim,repetir,cor) VALUES ($titulo,$nota,$data,$horaInicio,$horaFim,$repetir,$cor)"
+        "INSERT INTO myTask (titulo,nota,data,horaInicio,horaFim,repetir,cor,userId) VALUES ($titulo,$nota,$data,$horaInicio,$horaFim,$repetir,$cor,$userId)"
       )
+      const userId = user?.id
+      if (!userId) {
+        throw new Error("User ID is undefined");
+    }
       try {
         const result = await statement.executeAsync({
           $titulo: data.titulo,
@@ -19,6 +29,7 @@ export function usetasksDatabase() {
           $horaFim: data.horaFim,
           $repetir: data.repetir,
           $cor: data.cor,
+          $userId: userId,
         })
   
         const insertedRowId = result.lastInsertRowId.toLocaleString()
@@ -30,37 +41,28 @@ export function usetasksDatabase() {
         await statement.finalizeAsync()
       }
     }
-
-    //função para pegar as tarefas
-    const getTasks= async(name: string) =>{
-      try {
-        const query = "SELECT * FROM myTasks WHERE titulo LIKE ?";
-
-        const response = await db.getAllAsync(query, `%${name}%` );
-
-        return(response);
-      } catch (error) {
-        throw error
-      }
-    }
     
-    //função para filtrar as tarefas
+    //função para puxar e filtrar as tarefas
     const filterTask= async(name: string) =>{
-      try {
-        const query = "SELECT * FROM myTasks WHERE CONCAT(cor, data) LIKE ?";
+      const userId = user?.id
 
-        const response = await db.getAllAsync<tasksProps>(query, `%${name}%` );
-        console.log(name)
+    if (!userId) {
+      throw new Error("User ID is undefined");
+  }
+      try {
+        const query = "SELECT * FROM myTask WHERE (CONCAT(cor, data) LIKE ?) AND userId = ? ";
+
+        const response = await db.getAllAsync<tasksProps>(query, `%${name}%`, userId );
+
         return(response);
       } catch (error) {
         throw error
       }
     }
-
     //funcao para alterar task
     async function updateTask(data: tasksProps) {
       const statement = await db.prepareAsync(
-        "UPDATE myTasks SET titulo= $titulo ,nota= $nota ,data= $data ,horaInicio= $horaInicio ,horaFim= $horaFim ,repetir= $repetir ,cor= $cor WHERE id = $id"
+        "UPDATE myTask SET titulo= $titulo ,nota= $nota ,data= $data ,horaInicio= $horaInicio ,horaFim= $horaFim ,repetir= $repetir ,cor= $cor WHERE id = $id"
       )
       try {
         await statement.executeAsync({
@@ -84,14 +86,13 @@ export function usetasksDatabase() {
     //função para excluir uma task
     async function deletTasks(id:string) {
       try {
-        const query =  "DELETE FROM myTasks WHERE id = ?"
+        const query =  "DELETE FROM myTask WHERE id = ?"
         await db.runAsync(query, id);
         console.log('Tarefa deletada com sucesso!'+ id);
-        
       } catch (error) {
         console.error("Erro ao recuperar as tarefas:", error);
         return [];
   }
   }
-  return { createTask, updateTask, getTasks, deletTasks, filterTask } 
+  return { createTask, updateTask, deletTasks, filterTask } 
 }

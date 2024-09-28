@@ -1,4 +1,4 @@
-  import React from 'react';
+  import React, { useContext } from 'react';
   import { View, Text, StyleSheet, Alert, TouchableOpacity  } from 'react-native';
   import { PropsStackRoutes } from '../routes/interfaces';
   import { Feather } from '@expo/vector-icons';
@@ -6,27 +6,29 @@
   import { Buttom } from '../components/Buttom';
   import { useForm, Controller } from "react-hook-form"
   import { usetasksDatabase } from '../database/useTasksDatabase'
+import { AuthContext } from '../contexts/auth';
 
   const AdicionarTask = ({ navigation, route }:PropsStackRoutes | any) => {
     const {titulo, id, nota, data, horaInicio, horaFim, repetir, cor}:any = route.params || undefined ;
     const { updateTask } = usetasksDatabase();
     const { createTask } = usetasksDatabase();
+    const { user } = useContext(AuthContext); 
+    const userId = user?.id
 
     const {
       control,
       handleSubmit,
       formState: { errors },
     } = useForm()
-    
     async function onSubmit(data: any) {
       try {
         if (route.params?.id) {
-          const response = await updateTask({ ...data, id: route.params.id });
+          const response = await updateTask({ ...data, id: route.params.id});
           navigation.navigate('Home');
         } else {
           const response = await createTask(data);
           Alert.alert("Task cadastrada com o ID: " + response.insertedRowId);
-          console.log(data.data)
+          console.log(response)
           navigation.navigate('Home');
         }
       } catch (error) {
