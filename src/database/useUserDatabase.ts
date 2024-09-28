@@ -1,5 +1,5 @@
 import { useSQLiteContext } from "expo-sqlite";
-import { userProps } from "../utils/types.module";
+import { UserProps } from "../utils/types.module";
 import { hashSync, compare } from "bcrypt-ts";
 
 export function useUserDatabase() {
@@ -7,7 +7,7 @@ export function useUserDatabase() {
   const db = useSQLiteContext()
 
   // funcao para criar usuário 
-  async function createUser({ nome, email, senha }: Omit<userProps, "id">) {
+  async function createUser({ nome, email, senha }: Omit<UserProps, "id">) {
     const hash = hashSync(senha, 5);
     console.log("recebidos", nome, email, senha)
     
@@ -31,12 +31,11 @@ export function useUserDatabase() {
   }
 
   // funcao para retornar usuário
-  const readUser = async (email: string, senha: string): Promise<userProps> => {
+  const readUser = async (email: string, senha: string): Promise<UserProps> => {
     try {
       const query = "SELECT * FROM users WHERE email == ?";
-      const user = await db.getFirstAsync(query, [email, senha]) as userProps;
+      const user = await db.getFirstAsync(query, [email, senha]) as UserProps;
       const hash = user.senha
-
       if (!user) {
         throw new Error("Usuário não encontrado");
       }
@@ -44,8 +43,7 @@ export function useUserDatabase() {
       if (!isPasswordValid) {
         throw new Error("Senha incorreta");
       }
-
-      console.log("user", user)
+      console.log("usuario logado",user)
       return user;
     } catch (error) {
       throw error
@@ -53,7 +51,7 @@ export function useUserDatabase() {
   }
 
   // funcao para alterar dados do usuário 
-  async function updateUser(data: userProps) {
+  async function updateUser(data: UserProps) {
     const statement = await db.prepareAsync(
       "UPDATE users SET email= $email ,name= $name ,senha= $senha WHERE id = $id"
     )
@@ -83,7 +81,6 @@ export function useUserDatabase() {
       return [];
     }
   }
-
 
   return { createUser, readUser, updateUser, deletUser }
 }

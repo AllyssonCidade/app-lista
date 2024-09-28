@@ -8,9 +8,9 @@ export interface tasksProps{
     cor: string,
     id: string,
 }
-export interface userProps{
-    id: string,
-    nome: string,
-    email: string,
-    senha: string,
-}
+export type UserProps = {
+    nome: string;
+    id: string;
+    email: string;
+    senha: string;
+};

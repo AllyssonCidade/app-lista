@@ -6,7 +6,7 @@ import Feather from '@expo/vector-icons/Feather';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { PropsScreensApp } from '../routes/interfaces';
 import { usetasksDatabase } from '../database/useTasksDatabase'
-import { tasksProps } from '../utils/types';
+import { tasksProps } from '../utils/types.module';
 import { useFocusEffect } from 'expo-router';
 
 export const Home = ({ navigation }:PropsScreensApp) => {
