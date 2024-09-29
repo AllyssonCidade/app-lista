@@ -4,13 +4,21 @@ import { Text, View, StyleSheet } from 'react-native'
 import { PropsScreensApp } from '../routes/interfaces'
 import { Buttom } from '../components/Buttom'
 import { AuthContext } from '../contexts/auth'
+import { useFocusEffect } from 'expo-router'
 
 function Settings({navigation}:PropsScreensApp) {
   const { signOut } = useContext(AuthContext); 
+  const { user } = useContext(AuthContext); 
+
+  useFocusEffect(
+    React.useCallback(() => {
+      user
+    }, [])
+  );
 
   function handleLogout() {
     try {
-            const result = signOut();
+            signOut();
         } catch (error) {
             console.log("erro:", error);
         }
@@ -20,7 +28,7 @@ function Settings({navigation}:PropsScreensApp) {
     <View style={styles.container}>
       <View style={styles.header}>
         <Feather  name="arrow-left-circle" size={40} color="black" onPress={()=> navigation.goBack() } />
-        <Text style={styles.welcome}>Olá, Ryan</Text>
+        <Text style={styles.welcome}>Olá, {user?.nome}</Text>
       </View>
       <Text style={{fontSize: 20, fontWeight: 'bold', marginBottom: 50}}>Configurações</Text>
       <Buttom size='xlarge' onPress={()=> navigation.navigate('Notificacoes')}>Notificações</Buttom>

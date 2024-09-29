@@ -89,15 +89,13 @@ export const Home = ({ navigation }:PropsScreensApp) => {
                 horaInicio: item?.horaInicio || "" ,
                 horaFim: item?.horaFim || "" ,
                 repetir: item?.repetir || "" ,
-                cor: item?.cor || "" ,                
+                cor: item?.cor || "",
+                userId: item?.userId,
       })}
       onDeletTask={()=> onDeletTask(item)} id={item.id} stats={item.cor === 'red' ? 'Concluido' : 'Em andamento'} cor={item.cor} nota={item.nota} title={item.titulo} horaInicio={item.horaFim} horaFim={item.horaFim} />
     )
           }
-          
         />
-
-
       </View> 
     
     </View>

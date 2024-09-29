@@ -10,6 +10,7 @@ export type RouteProps = {
     repetir?: string;
     cor?: string;
     route?: any;
+    userId?: number;
 };
 
 export type PropsStackRoutes = {

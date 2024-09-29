@@ -5,16 +5,19 @@ import circles from "@/assets/images/circles.png";
 import InputField from "../components/inputField";
 import { useContext, useState } from "react";
 import { AuthContext } from '../contexts/auth'; 
+import LoadingScreen from "../components/loading/loginLoading";
 
 export const Login = ({ navigation }: PropsScreensApp) => {
     const { signIn } = useContext(AuthContext); 
     const [senha, setSenha] = useState("");
     const [email, setEmail] = useState("");
-    const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false); 
 
     const handleLogin = async () => {
+        setIsLoading(true);
         try {
             const result = await signIn(email, senha );
+            setIsLoading(false);
         } catch (error) {
             console.log("erro:", error);
         }
@@ -22,20 +25,26 @@ export const Login = ({ navigation }: PropsScreensApp) => {
 
     return (
         <View style={styles.container}>
-            <Image source={circles} style={styles.circles} />
-            <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 50 }}>Seja Bem-vindo</Text>
-            <Text>Vamos ajudar a cumprir suas tarefas.</Text>
-            <View style={styles.inputContainer}>
-                <InputField value={email} onChangeText={setEmail} placeholder="Digite seu e-mail" types="text" />
-                <InputField value={senha} onChangeText={setSenha} placeholder="Digite sua senha" secureTextEntry types="text" />
-                <Text style={styles.linkText} onPress={() => { navigation.navigate("RecuperarSenha") }}>Esqueceu a senha?</Text>
+            {isLoading ? (
+                <LoadingScreen /> 
+            ) : (
+                <>
+                <Image source={circles} style={styles.circles} />
+                <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 50 }}>Seja Bem-vindo</Text>
+                <Text>Vamos ajudar a cumprir suas tarefas.</Text>
+                <View style={styles.inputContainer}>
+                    <InputField value={email} onChangeText={setEmail} placeholder="Digite seu e-mail" types="text" />
+                    <InputField value={senha} onChangeText={setSenha} placeholder="Digite sua senha" secureTextEntry types="text" />
+                    <Text style={styles.linkText} onPress={() => { navigation.navigate("RecuperarSenha") }}>Esqueceu a senha?</Text>
+                </View>
+                <Buttom size="xlarge" onPress={handleLogin}>Login</Buttom>
+                <View style={{ display: 'flex', flexDirection: 'row' }}>
+                    <Text style={styles.p}>Não possui conta?</Text>
+                    <Text style={styles.linkText} onPress={() => navigation.navigate('Cadastro')}>Cadastrar</Text>
+                </View>
+                </>
+            )}
             </View>
-            <Buttom size="xlarge" onPress={handleLogin}>Login</Buttom>
-            <View style={{ display: 'flex', flexDirection: 'row' }}>
-                <Text style={styles.p}>Não possui conta?</Text>
-                <Text style={styles.linkText} onPress={() => navigation.navigate('Cadastro')}>Cadastrar</Text>
-            </View>
-        </View>
     );
 };
 

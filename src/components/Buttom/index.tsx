@@ -1,6 +1,5 @@
 import { GestureResponderEvent, TouchableOpacity, Text, ViewStyle } from "react-native";
 import styles from "./styles";
-import { ReactElement } from "react";
 
 export type ButtomProps = {
     size?: 'small' | 'medium' | 'large' | 'xlarge'

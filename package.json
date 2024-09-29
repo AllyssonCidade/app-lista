@@ -45,7 +45,8 @@
     "react-native-select-dropdown": "^4.0.1",
     "react-native-svg": "^15.7.1",
     "react-native-web": "~0.19.10",
-    "styled-components": "^6.1.12"
+    "styled-components": "^6.1.12",
+    "expo-blur": "~13.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

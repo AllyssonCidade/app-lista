@@ -53,8 +53,8 @@ const InputField = ({titulo, placeholder,onChangeText, secureTextEntry, children
     case 'text':
       return (
         <Container >
-            <Text >{titulo}</Text>
-            <Input secureTextEntry={secureTextEntry} onChangeText={onChangeText} placeholder={placeholder}>{children}</Input>
+            <Text>{titulo}</Text>
+            <Input secureTextEntry={secureTextEntry} value={value} onChangeText={onChangeText} placeholder={placeholder}/>
         </Container> 
         );
     case 'date':
