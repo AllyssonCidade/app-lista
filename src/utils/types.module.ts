@@ -4,9 +4,9 @@ export interface tasksProps{
     data: string,
     horaInicio: string,
     horaFim: string,
-    repetir: string,
     cor: string,
     id: string,
+    stats: string,
     userId: number,
 }
 export type UserProps = {

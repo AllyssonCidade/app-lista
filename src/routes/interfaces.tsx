@@ -7,10 +7,10 @@ export type RouteProps = {
     data?: string;
     horaInicio?: string;
     horaFim?: string;
-    repetir?: string;
     cor?: string;
     route?: any;
     userId?: number;
+    stats?: string;
 };
 
 export type PropsStackRoutes = {

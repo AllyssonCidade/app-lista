@@ -1,7 +1,7 @@
 import { GestureResponderEvent, View } from "react-native";
 import { Container, Divider, Text, TextDone, Title,  ViewFlexColumn, ViewFlexRow } from "./styles";
 import EvilIcons from '@expo/vector-icons/EvilIcons';
-import { Feather, MaterialIcons } from "@expo/vector-icons";
+import {  MaterialIcons } from "@expo/vector-icons";
 
 interface TaskProps {
     title?: string;
@@ -15,10 +15,10 @@ interface TaskProps {
     onPress?:(event: GestureResponderEvent) => void;
     onDeletTask?: () => void;
     onEditTask?: ()=> void;
-    onDoneTask?: () => void;
+    onToggleTask?: () => void;
   }
 
-export function Task({onDeletTask,onEditTask, onDoneTask, title, cor, horaInicio, horaFim, nota, stats, onPress }: TaskProps) {
+export function Task({onDeletTask,onEditTask, onToggleTask, title, cor, horaInicio, horaFim, nota, stats, onPress }: TaskProps) {
     return(
         <Container style={{backgroundColor: cor}} onPress={onPress}> 
             <ViewFlexColumn>
@@ -34,7 +34,7 @@ export function Task({onDeletTask,onEditTask, onDoneTask, title, cor, horaInicio
                 <View style={{display:'flex', gap:5 }}>
                     <EvilIcons onPress={onDeletTask} name="trash" size={32} color="black" />
                     <EvilIcons onPress={onEditTask} name="pencil" size={32} color="black" />
-                    <MaterialIcons onPress={onDoneTask} name="done" size={32} color="black" />
+                    <MaterialIcons onPress={onToggleTask} name="done" size={32} color="black" />
                 </View>
                 <Divider />
                 <TextDone>{stats}</TextDone>

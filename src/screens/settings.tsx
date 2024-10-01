@@ -12,7 +12,7 @@ function Settings({navigation}:PropsScreensApp) {
 
   useFocusEffect(
     React.useCallback(() => {
-      user
+      
     }, [])
   );
 

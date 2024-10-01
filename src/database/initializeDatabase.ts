@@ -19,8 +19,8 @@ export async function initializeDatabase(database: SQLiteDatabase) {
         data TEXT NOT NULL,
         horaInicio TEXT NOT NULL,
         horaFim TEXT NOT NULL,
-        repetir TEXT NOT NULL,
         cor TEXT NOT NULL,
+        stats TEXT NOT NULL,
         userId INTEGER NOT NULL
       );
     `);

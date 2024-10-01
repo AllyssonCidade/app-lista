@@ -8,13 +8,11 @@ export function usetasksDatabase() {
     const db = useSQLiteContext()
     const { user } = useContext(AuthContext); 
 
-
-
     // funcao para criar a tarefa
     async function createTask(data: Omit<tasksProps, "id">) {
       
       const statement = await db.prepareAsync(
-        "INSERT INTO myTask (titulo,nota,data,horaInicio,horaFim,repetir,cor,userId) VALUES ($titulo,$nota,$data,$horaInicio,$horaFim,$repetir,$cor,$userId)"
+        "INSERT INTO myTask (titulo,nota,data,horaInicio,horaFim,cor,stats,userId) VALUES ($titulo,$nota,$data,$horaInicio,$horaFim,$cor,$stats,$userId)"
       )
       const userId = user?.id
       if (!userId) {
@@ -27,8 +25,8 @@ export function usetasksDatabase() {
           $data: data.data,
           $horaInicio: data.horaInicio,
           $horaFim: data.horaFim,
-          $repetir: data.repetir,
           $cor: data.cor,
+          $stats: "Em Aberto",
           $userId: userId,
         })
   
@@ -50,7 +48,7 @@ export function usetasksDatabase() {
       throw new Error("User ID is undefined");
   }
       try {
-        const query = "SELECT * FROM myTask WHERE (CONCAT(cor, data) LIKE ?) AND userId = ? ";
+        const query = "SELECT * FROM myTask WHERE (CONCAT(stats, data) LIKE ?) AND userId = ? ";
 
         const response = await db.getAllAsync<tasksProps>(query, `%${name}%`, userId );
 
@@ -62,18 +60,35 @@ export function usetasksDatabase() {
     //funcao para alterar task
     async function updateTask(data: tasksProps) {
       const statement = await db.prepareAsync(
-        "UPDATE myTask SET titulo= $titulo ,nota= $nota ,data= $data ,horaInicio= $horaInicio ,horaFim= $horaFim ,repetir= $repetir ,cor= $cor WHERE id = $id"
+        "UPDATE myTask SET titulo= $titulo ,nota= $nota ,data= $data ,horaInicio= $horaInicio ,horaFim= $horaFim, cor = $cor WHERE id = $id"
       )
       try {
         await statement.executeAsync({
           $id: data.id,
-          $titulo: data.titulo,
-          $nota: data.nota,
-          $data: data.data,
-          $horaInicio: data.horaInicio,
-          $horaFim: data.horaFim,
-          $repetir: data.repetir,
-          $cor: data.cor,
+          $titulo: data?.titulo,
+          $nota: data?.nota,
+          $data: data?.data,
+          $horaInicio: data?.horaInicio,
+          $horaFim: data?.horaFim,
+          $cor: data?.cor,
+        })
+  
+      } catch (error) {
+        throw error
+      } finally {
+        await statement.finalizeAsync()
+      }
+    }
+
+    //altera o estatus da tarefa (concluido/em andamento)
+    async function toggleStats(data: any) {
+      const statement = await db.prepareAsync(
+        "UPDATE myTask SET stats= $stats WHERE id = $id"
+      )
+      try {
+        await statement.executeAsync({
+          $id: data.id,
+          $stats: data.stats,
         })
   
       } catch (error) {
@@ -92,7 +107,20 @@ export function usetasksDatabase() {
       } catch (error) {
         console.error("Erro ao recuperar as tarefas:", error);
         return [];
-  }
-  }
-  return { createTask, updateTask, deletTasks, filterTask } 
+      }
+    }
+    
+    //função para excluir toda a tabela(consequentemente todas as tasks)
+    function deletTable() {
+      try {
+        const query =  "DROP TABLE IF EXISTS myTask"
+        db.execAsync(query);
+        console.log('sucesso!');
+      } catch (error) {
+        console.error("Erro");
+        return [];
+      }
+    }
+
+  return { createTask, updateTask, deletTasks, filterTask, toggleStats, deletTable } 
 }

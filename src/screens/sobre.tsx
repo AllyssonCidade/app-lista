@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#8fe1d745',
     },
     circles: {
+        position: 'absolute',
         left: -137,
         height: 243,
         width: 270,

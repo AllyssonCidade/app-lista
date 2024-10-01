@@ -1,4 +1,3 @@
-import { Buttom } from '@/src/components/Buttom';
 import { Task } from '@/src/components/Task';
 import React, { useEffect, useState } from 'react';
 import Feather from '@expo/vector-icons/Feather';
@@ -16,7 +15,6 @@ export const Notificacoes = ({ navigation }: PropsScreensApp) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      // Aqui você pode atualizar as notificações, se necessário.
     }, [])
   );
 
@@ -32,8 +30,8 @@ export const Notificacoes = ({ navigation }: PropsScreensApp) => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <Task 
-            onEditTask={() => { /* lógica para editar notificação */ }}
-            onDeletTask={() => { /* lógica para deletar notificação */ }}
+            onEditTask={() => { }}
+            onDeletTask={() => {  }}
             id={item.id} 
             stats={item.cor === 'red' ? 'Concluído' : 'Em andamento'} 
             cor={item.cor} 

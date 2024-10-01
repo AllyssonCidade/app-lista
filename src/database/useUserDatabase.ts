@@ -47,7 +47,7 @@ export function useUserDatabase() {
     }
   }
 
-  // funcao para alterar dados do usuário 
+  // funcao para wditar dados do usuário 
   async function updateUser(data: any) {
     const hashAtual = hashSync(data.senha);
     const hash = hashSync(data.novaSenha);
@@ -95,7 +95,7 @@ export function useUserDatabase() {
   // funcao para deletar usuário
   async function deletUser(id: number) {
     try {
-      const delet = "DELETE tasks WHERE id = ?";
+      const delet = "DELETE FROM users WHERE id = ?";
       const result = await db.runAsync(delet, [id]);
   
       if (result?.changes > 0) { 
