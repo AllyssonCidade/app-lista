@@ -1,7 +1,7 @@
 import { Buttom } from '@/src/components/Buttom';
 import { DateCart } from '@/src/components/DateCard';
 import { Task } from '@/src/components/Task';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Feather from '@expo/vector-icons/Feather';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { PropsScreensApp } from '../routes/interfaces';
@@ -16,14 +16,26 @@ export const Home = ({ navigation }: PropsScreensApp) => {
   const { filterTask } = usetasksDatabase();
   const { user } = useContext(AuthContext);
   const { toggleStats } = usetasksDatabase();
-
+  const [data, setData] = useState("");
+  const [stats, setStats] = useState("");
 
   useFocusEffect(
     React.useCallback(() => {
-      onFilter("");
-
-    }, [user,])
+      onFilter("", "");
+    }, [])
   );
+
+  const onFilter = async (stats: string, data: string) => {
+    try {
+      const response = await filterTask(stats, data)
+      setTasks(response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(() => {
+    onFilter(data, stats)
+  },[stats, data])
 
   const handleDateChange = async (date: Date) => {
     try {
@@ -32,8 +44,7 @@ export const Home = ({ navigation }: PropsScreensApp) => {
         month: '2-digit',
         year: 'numeric',
       });
-      const response = await filterTask(formatedDate)
-      setTasks(response);
+      setData(formatedDate)
     } catch (error) {
       console.log(error)
     }
@@ -42,7 +53,6 @@ export const Home = ({ navigation }: PropsScreensApp) => {
   const onDeletTask = async (item: any) => {
     try {
       await deletTasks(item.id)
-      onFilter("")
     } catch (error) {
       console.log('erro ao deletar task')
     }
@@ -52,17 +62,9 @@ export const Home = ({ navigation }: PropsScreensApp) => {
     try {
       const novoStatus = item.stats === "Em Aberto" ? "Concluído" : "Em Aberto";
       await toggleStats({ id: item.id, stats: novoStatus });
-      onFilter("")
+      onFilter("","")
     } catch (error) {
       console.log('Erro ao alternar o status da task', error);
-    }
-  }
-  const onFilter = async (data: string) => {
-    try {
-      const response = await filterTask(data)
-      setTasks(response)
-    } catch (error) {
-      console.log(error)
     }
   }
 
@@ -79,9 +81,9 @@ export const Home = ({ navigation }: PropsScreensApp) => {
 
         <DateCart onChangeDate={handleDateChange} />
         <View style={{ paddingHorizontal: 15, width: '100%', flexDirection: 'row', justifyContent: 'space-between' }} >
-          <Buttom onPress={() => onFilter("")} size="small">Todos</Buttom>
-          <Buttom onPress={() => onFilter("Em aberto")} size="small" color='white'>Em aberto</Buttom>
-          <Buttom onPress={() => onFilter("Concluído")} size="small" color='white'>Concluído</Buttom>
+          <Buttom onPress={()=> {setStats(""), setData("")}} size="small">Todos</Buttom>
+          <Buttom onPress={() => setStats("Em aberto")} size="small" color='white'>Em aberto</Buttom>
+          <Buttom onPress={() => setStats("Concluído")} size="small" color='white'>Concluído</Buttom>
         </View>
 
         <Buttom size='xlarge' onPress={() =>
