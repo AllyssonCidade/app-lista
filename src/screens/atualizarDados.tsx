@@ -41,7 +41,6 @@ function AtualizarDados({ navigation }: PropsScreensApp) {
       await signIn(email, senha);
       setIsLoading(false);
       reset();
-      console.log("resultado", result);
     } catch (error) {
       console.error("Erro ao atualizar os dados:", error);
       setIsLoading(false);

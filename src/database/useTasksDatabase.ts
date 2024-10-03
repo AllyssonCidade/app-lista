@@ -43,13 +43,9 @@ export function usetasksDatabase() {
   //função para puxar e filtrar as tarefas
   const filterTask = async (data: string, stats: string) => {
     const userId = user?.id;
-    console.log(stats);
-    console.log(data);
-
     if (!userId) {
       throw new Error("User ID is undefined");
     }
-
     try {
       if (data === "" && stats === "") {
         const query = "SELECT * FROM myTask WHERE userId = ?";

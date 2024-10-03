@@ -27,7 +27,6 @@ const AdicionarTask = ({ navigation, route }: PropsStackRoutes | any) => {
       } else {
         const response = await createTask(data);
         Alert.alert("Task cadastrada com o ID: " + response.insertedRowId);
-        console.log(response)
         navigation.navigate('Home');
       }
     } catch (error) {

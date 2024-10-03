@@ -9,33 +9,26 @@ import { usetasksDatabase } from '../database/useTasksDatabase'
 import { tasksProps } from '../utils/types.module';
 import { useFocusEffect } from 'expo-router';
 import { AuthContext } from '../contexts/auth';
+import { TasksContext } from '../contexts/tasksContext'
 
 export const Home = ({ navigation }: PropsScreensApp) => {
-  const [tasks, setTasks] = useState<any>([]);
   const { deletTasks } = usetasksDatabase();
-  const { filterTask } = usetasksDatabase();
   const { user } = useContext(AuthContext);
   const { toggleStats } = usetasksDatabase();
   const [data, setData] = useState("");
   const [stats, setStats] = useState("");
+  const { tasks, notifications } = useContext(TasksContext);
+  const { onFilter } = useContext(TasksContext);
 
   useFocusEffect(
     React.useCallback(() => {
       onFilter("", "");
-    }, [])
+    }, [user])
   );
 
-  const onFilter = async (stats: string, data: string) => {
-    try {
-      const response = await filterTask(stats, data)
-      setTasks(response)
-    } catch (error) {
-      console.log(error)
-    }
-  }
   useEffect(() => {
     onFilter(data, stats)
-  },[stats, data])
+  }, [stats, data])
 
   const handleDateChange = async (date: Date) => {
     try {
@@ -62,7 +55,7 @@ export const Home = ({ navigation }: PropsScreensApp) => {
     try {
       const novoStatus = item.stats === "Em Aberto" ? "Concluído" : "Em Aberto";
       await toggleStats({ id: item.id, stats: novoStatus });
-      onFilter("","")
+      onFilter("", "")
     } catch (error) {
       console.log('Erro ao alternar o status da task', error);
     }
@@ -74,14 +67,21 @@ export const Home = ({ navigation }: PropsScreensApp) => {
         <View style={{ paddingHorizontal: 15, width: '100%', flexDirection: 'row', justifyContent: 'space-between' }} >
           <Text style={{ fontSize: 18 }}>Olá, {user?.nome}</Text>
           <View style={{ gap: 20, flexDirection: 'row', justifyContent: 'space-between' }} >
-            <Feather onPress={() => navigation.navigate('Notificacoes')} name="bell" size={40} color="black" />
+            <View style={styles.notificationContainer}>
+              <Feather onPress={() => navigation.navigate('Notificacoes')} name="bell" size={40} color="black" />
+              {notifications.length > 0 &&
+                <View style={styles.notificationDot} >
+                  <Text style={styles.notificationText}>{notifications.length}</Text>
+                </View>
+              }
+            </View>
             <Feather onPress={() => navigation.navigate('Settings')} name="settings" size={40} fil color="black" />
           </View>
         </View>
 
         <DateCart onChangeDate={handleDateChange} />
         <View style={{ paddingHorizontal: 15, width: '100%', flexDirection: 'row', justifyContent: 'space-between' }} >
-          <Buttom onPress={()=> {setStats(""), setData("")}} size="small">Todos</Buttom>
+          <Buttom onPress={() => { setStats(""); setData(""); }} size="small">Todos</Buttom>
           <Buttom onPress={() => setStats("Em aberto")} size="small" color='white'>Em aberto</Buttom>
           <Buttom onPress={() => setStats("Concluído")} size="small" color='white'>Concluído</Buttom>
         </View>
@@ -127,5 +127,27 @@ const styles = StyleSheet.create({
     gap: 24,
     marginBottom: 160,
   },
+  notificationContainer: {
+    position: 'relative',
+  },
+  notificationDot: {
+    position: 'absolute',
+    right: 2,
+    top: -2,
+    width: 20,
+    height: 20,
+    borderRadius: 20,
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center', 
+  },
+  notificationText: {
+    textAlign: 'center',
+    alignContent: 'center',
+    fontWeight: 'bold',
+    color: 'white',
+    fontSize: 12,
+  }
 })
+
 

@@ -1,69 +1,99 @@
-import { Task } from '@/src/components/Task';
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import Feather from '@expo/vector-icons/Feather';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import circles from "@/assets/images/circles.png";
+
 import { PropsScreensApp } from '../routes/interfaces';
 import { useFocusEffect } from 'expo-router';
+import { TasksContext } from '../contexts/tasksContext'
+import { Task } from '../components/Task';
+import { usetasksDatabase } from '../database/useTasksDatabase';
+import { tasksProps } from '../utils/types.module';
 
-const notificationsMock = [
-  { id: '1', titulo: 'Lembrete de Tarefa', nota: 'Você tem uma tarefa pendente.', cor: 'red' },
-  { id: '2', titulo: 'Tarefa Finalizada', nota: 'A tarefa "Revisar Código" foi concluída.', cor: 'red' },
-];
 
 export const Notificacoes = ({ navigation }: PropsScreensApp) => {
-  const [notifications, setNotifications] = useState<any[]>(notificationsMock);
+  const { notifications } = useContext(TasksContext);
+  const { toggleStats } = usetasksDatabase();
+  const notificationArray = Array.isArray(notifications) ? notifications : [notifications];
+  const { onFilter }= useContext(TasksContext); 
+
 
   useFocusEffect(
     React.useCallback(() => {
     }, [])
   );
 
+  console.log(notificationArray)
+
+  async function onCheck(item: any) {
+    try {
+      const novoStatus = item.stats === "Em Aberto" ? "Concluído" : "Em Aberto";
+      await toggleStats({ id: item.id, stats: novoStatus });
+      onFilter("","")
+    } catch (error) {
+      console.log('Erro ao alternar o status da task', error);
+    }
+  }
+
   return (
     <View style={styles.container}>
+      <Image source={circles} style={styles.circles} />
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Notificações</Text>
-        <Feather onPress={() => navigation.navigate('Settings')} name="settings" size={30} color="black" />
+        <Feather name="arrow-left-circle" size={40} color="black" onPress={() => navigation.goBack()} />
       </View>
-
-      <FlatList
-        data={notifications}
-        keyExtractor={(item) => item.id}
+      <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 50 }}>Notificações</Text>
+      <FlatList style={{width: '100%'}}
+        data={notificationArray}
+        keyExtractor={(item: tasksProps) => item.id}
         renderItem={({ item }) => (
-          <Task 
-            onEditTask={() => { }}
-            onDeletTask={() => {  }}
-            id={item.id} 
-            stats={item.cor === 'red' ? 'Concluído' : 'Em andamento'} 
-            cor={item.cor} 
-            nota={item.nota} 
-            title={item.titulo} 
-            horaInicio="" 
-            horaFim="" 
-          />
+          <>
+          <Text style={styles.p}>Tarefa vencida em: {item.data}</Text>
+          <Task onToggleTask={() => onCheck(item)}
+            id={item.id}
+            stats={item.stats}
+            cor={item.cor}
+            nota={item.nota}
+            title={item.titulo}
+            horaInicio={item.horaFim}
+            horaFim={item.horaFim}
+            />
+      </>
         )}
-        contentContainerStyle={styles.notificationList}
       />
-    </View>
-  );
-};
+    </View >
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     backgroundColor: '#8fe1d745',
+    padding: 20,
+    paddingBottom: 0,
+    alignItems: 'center',
+    gap: 40,
+  },
+  circles: {
+    position: 'absolute',
+    left: -77,
+    height: 243,
+    width: 270,
   },
   header: {
+    display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    width: '100%',
     alignItems: 'center',
-    marginBottom: 15,
+    justifyContent: 'space-between',
   },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+  p:{
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 5,
+    fontWeight: 'semibold',
+  }, 
+  notificationItem:{
+    marginBottom: 10,
   },
-  notificationList: {
-    paddingBottom: 50,
-  },
+
 });
