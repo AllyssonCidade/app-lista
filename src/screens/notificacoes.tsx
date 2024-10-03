@@ -23,8 +23,6 @@ export const Notificacoes = ({ navigation }: PropsScreensApp) => {
     }, [])
   );
 
-  console.log(notificationArray)
-
   async function onCheck(item: any) {
     try {
       const novoStatus = item.stats === "Em Aberto" ? "Concluído" : "Em Aberto";

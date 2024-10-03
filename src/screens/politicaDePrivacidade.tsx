@@ -10,18 +10,18 @@ export const PoliticaPrivacidade = ({ navigation }: PropsScreensApp) => {
                 <Image source={circles} style={styles.circles} />
                 <View style={styles.header}>
                     <Feather name="arrow-left-circle" size={40} color="black" onPress={() => navigation.goBack()} />
-                    <Text style={styles.title}>Política de Privacidade</Text>
                 </View>
+                <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 50 }}>Política de Privacidade</Text>
                 <Text style={styles.paragraph}>
-                    Respeitamos sua privacidade e estamos comprometidos em proteger as informações pessoais que 
-                    você compartilha conosco. Todos os dados coletados no aplicativo de lista de tarefas são 
+                    Respeitamos sua privacidade e estamos comprometidos em proteger as informações pessoais que
+                    você compartilha conosco. Todos os dados coletados no aplicativo de lista de tarefas são
                     utilizados exclusivamente para melhorar a sua experiência no uso do aplicativo.
                 </Text>
                 <Text style={styles.paragraph}>
-                    Garantimos que nenhuma informação pessoal será compartilhada com terceiros sem seu consentimento 
+                    Garantimos que nenhuma informação pessoal será compartilhada com terceiros sem seu consentimento
                     explícito. Para mais detalhes, por favor entre em contato com nosso suporte.
                 </Text>
-            </View>
+            </View >
         </>
     );
 };
@@ -29,11 +29,14 @@ export const PoliticaPrivacidade = ({ navigation }: PropsScreensApp) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
         backgroundColor: '#8fe1d745',
-    },
-    circles: {
-        left: -137,
+        padding: 20,
+        paddingBottom: 0,
+        alignItems: 'center',
+        gap: 40,
+    }, circles: {
+        position: 'absolute',
+        left: -77,
         height: 243,
         width: 270,
     },
@@ -42,8 +45,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        marginBottom: 50,
     },
     title: {
         fontSize: 20,

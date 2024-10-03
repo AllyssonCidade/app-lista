@@ -10,16 +10,16 @@ export const Sobre = ({ navigation }: PropsScreensApp) => {
                 <Image source={circles} style={styles.circles} />
                 <View style={styles.header}>
                     <Feather name="arrow-left-circle" size={40} color="black" onPress={() => navigation.goBack()} />
-                    <Text style={styles.title}>Sobre o Aplicativo</Text>
                 </View>
+                <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 50 }}>Sobre o aplicativo</Text>
                 <Text style={styles.paragraph}>
-                    Este aplicativo de lista de tarefas foi desenvolvido para ajudar você a organizar suas 
-                    atividades diárias de forma simples e eficiente. Nosso objetivo é proporcionar uma 
-                    experiência leve, sem complicações, para que você possa focar no que realmente importa: 
+                    Este aplicativo de lista de tarefas foi desenvolvido para ajudar você a organizar suas
+                    atividades diárias de forma simples e eficiente. Nosso objetivo é proporcionar uma
+                    experiência leve, sem complicações, para que você possa focar no que realmente importa:
                     cumprir suas tarefas!
                 </Text>
                 <Text style={styles.paragraph}>
-                    Com funcionalidades intuitivas, você poderá adicionar, editar e excluir tarefas, além de 
+                    Com funcionalidades intuitivas, você poderá adicionar, editar e excluir tarefas, além de
                     marcar aquelas que já foram concluídas.
                 </Text>
             </View>
