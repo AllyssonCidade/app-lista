@@ -2,11 +2,11 @@
 # To-Do List App
 
 
-Um aplicativo simples de lista de tarefas para gerenciar seu dia a dia, desenvolvido com React e Expo, utilizando expo-sqlite para armazenamento local.
+Um aplicativo simples de lista de tarefas para gerenciar seu dia a dia, desenvolvido com React Native e Expo, utilizando Expo-SQLite para armazenamento local.
 
 ## Referência
 
-[Documentação do React](https://pt-br.react.dev/learn)
+[Documentação do React](https://reactnative.dev/)
 
 [Documentação do Expo](https://docs.expo.dev/)
 
@@ -25,7 +25,7 @@ O aplicativo não possui uma API externa, mas você pode estender sua funcionali
 - [Felipe Alves](https://www.github.com/octokatherine) *
 - [Levy Carlo](https://www.github.com/octokatherine) *
 - [Matheus Quevedo](https://www.github.com/matheusquevedodev)
-- [Yan Dart](https://www.github.com/octokatherine) *
+- [Yan Dart](https://www.github.com/YLeall)
 
 
 ## Etiquetas
@@ -54,7 +54,7 @@ Aqui está a tabela atualizada com as cores que você forneceu:
 ## Documentação
 Aqui estão os links para a documentação das principais bibliotecas e tecnologias usadas:
 
-- [Documentação do React](https://pt-br.react.dev/learn)
+- [Documentação do React](https://reactnative.dev/)
 - [Documentação do Expo](https://docs.expo.dev/)
 
 
@@ -105,7 +105,7 @@ Dessa forma, as perguntas ficam destacadas, enquanto as respostas permanecem em 
 
 ## Aprendizados
 
-Durante o desenvolvimento deste projeto, aprendi mais sobre gerenciamento de estado no React e o uso de armazenamento local com SQLite no Expo.
+Durante o desenvolvimento deste projeto, aprendi mais sobre gerenciamento de estado no React Native e o uso de armazenamento local com SQLite no Expo.
 
 
 ## Melhorias
@@ -117,7 +117,7 @@ Durante o desenvolvimento deste projeto, aprendi mais sobre gerenciamento de est
 
 ## Stack utilizada
 
-**Front-end:** React, Expo
+**Front-end:** React Native, Expo
 
 **Banco de dados:** SQLite
 
