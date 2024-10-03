@@ -22,8 +22,8 @@ O aplicativo não possui uma API externa, mas você pode estender sua funcionali
 
 - [Alan Leandro](https://www.github.com/alanleandro23)
 - [Allyson Cidade](https://www.github.com/AllyssonCidade)
-- [Felipe Alves](https://www.github.com/octokatherine) *
-- [Levy Carlo](https://www.github.com/octokatherine) *
+- [Felipe Alves](https://www.github.com/Felipealves1989)
+- [Levy Carlo](https://www.github.com/levyycarlo)
 - [Matheus Quevedo](https://www.github.com/matheusquevedodev)
 - [Yan Dart](https://www.github.com/YLeall)
 
@@ -100,6 +100,9 @@ Vá até o menu de configurações clicando no ícone de engrenagem no canto sup
 
 3. **Instale o SQLite para o Expo:**  
    *npx expo install expo-sqlite*
+
+4. **Inicie o APP:**
+   *npx expo start*
 
 Dessa forma, as perguntas ficam destacadas, enquanto as respostas permanecem em itálico.
 
