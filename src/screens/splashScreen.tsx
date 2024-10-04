@@ -3,8 +3,8 @@ import { PropsScreensApp } from "../routes/interfaces";
 import { Buttom } from "../components/Buttom";
 import avatar from "@/assets/images/avatar_basic.png";
 import circles from "@/assets/images/circles.png";
-import { useContext, useEffect, useRef } from "react";
-import { AuthContext } from "../contexts/auth";
+import { useEffect, useRef } from "react";
+
 
 export const SplashScreen = ({ navigation }:PropsScreensApp)=>{
     //Tudo isso só para formatar a data :{ 

@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     },
     errorText: {
         color: 'red',
-        marginBottom: 10,
+        marginBottom: -20,
         alignSelf: 'flex-start',
     },
     linkText: {

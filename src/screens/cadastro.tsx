@@ -28,10 +28,20 @@ export default function Cadastro({ navigation }: PropsScreensApp) {
 
   const onCreatUser = async (data: FormData) => {
     const { nome, email, senha } = data;
-    await createUser({ nome, email, senha });
-    Alert.alert("Cadastro realizado com sucesso!!!");
-    navigation.navigate('Login');
+    
+    try {
+      await createUser({ nome, email, senha });
+      Alert.alert("Cadastro realizado com sucesso!!!");
+      navigation.navigate('Login');
+    } catch (error:any) {
+      if (error.message === "Email já cadastrado") {
+        Alert.alert("Erro", "Email já está cadastrado!");
+      } else {
+        Alert.alert("Erro", "Ocorreu um erro ao cadastrar o usuário.");
+      }
+    }
   };
+  
 
   return (
     <View style={styles.container}>
@@ -155,7 +165,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: 'red',
-    marginBottom: 10,
+    marginBottom: -19,
     alignSelf: 'flex-start',
   },
   linkText: {

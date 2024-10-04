@@ -17,7 +17,6 @@ export const Notificacoes = ({ navigation }: PropsScreensApp) => {
   const notificationArray = Array.isArray(notifications) ? notifications : [notifications];
   const { onFilter }= useContext(TasksContext); 
 
-
   useFocusEffect(
     React.useCallback(() => {
     }, [])
@@ -56,7 +55,11 @@ export const Notificacoes = ({ navigation }: PropsScreensApp) => {
             horaFim={item.horaFim}
             />
       </>
-        )}
+        )} ListEmptyComponent={
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Text>Você não tem notificações no momento</Text>
+          </View>
+        }
       />
     </View >
   )
