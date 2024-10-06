@@ -1,6 +1,7 @@
 import { useSQLiteContext } from "expo-sqlite";
 import { UserProps } from "../utils/types.module";
 import { hashSync, compare } from "bcrypt-ts";
+import { gerarSenhaAleatoria } from "../components/GerarSenha";
 
 export function useUserDatabase() {
   //retornando o db que foi iniciado em initializeDatabase.ts
@@ -11,11 +12,11 @@ export function useUserDatabase() {
     const hash = hashSync(senha);
     const query = "SELECT * FROM users WHERE email = ?"
     const verifyEmail = await db.getFirstAsync(query, [email]) as UserProps;
-    
+
     if (verifyEmail) {
       throw new Error("Email já cadastrado");
     }
-    
+
     const statement = await db.prepareAsync(
       "INSERT INTO users (nome,email,senha) VALUES ($nome,$email,$senha)"
     );
@@ -33,7 +34,7 @@ export function useUserDatabase() {
       await statement.finalizeAsync();
     }
   }
-  
+
 
   // funcao para retornar usuário
   const readUser = async (email: string, senha: string): Promise<UserProps> => {
@@ -104,8 +105,8 @@ export function useUserDatabase() {
     try {
       const delet = "DELETE FROM users WHERE id = ?";
       const result = await db.runAsync(delet, [id]);
-  
-      if (result?.changes > 0) { 
+
+      if (result?.changes > 0) {
         console.log('Usuário deletado com sucesso');
       } else {
         console.log('Nenhum usuário encontrado para deletar');
@@ -115,5 +116,34 @@ export function useUserDatabase() {
     }
   }
   
-  return { createUser, readUser, updateUser, deletUser }
+  // funcao para recupear senha
+  async function recuperaSenha({ email, nome }: any): Promise<string | null> {
+    const query = "SELECT * FROM users WHERE email = ? AND nome = ?"
+    const verifyAccount = await db.getFirstAsync(query, [email, nome]) as UserProps;
+    if (!verifyAccount) {
+      console.log("Conta não encontrada.");
+      return null;
+    }
+    const senha = gerarSenhaAleatoria(8);
+    const statement = await db.prepareAsync(
+      "UPDATE users SET senha = $senha WHERE email = $email"
+    );
+    try {
+      const hash = hashSync(senha);
+      await statement.executeAsync({
+        $email: email,
+        $senha: hash,
+      });
+      console.log("Senha atualizada com sucesso.");
+      return senha;
+    } catch (err) {
+      console.error("Erro ao atualizar a senha:", err);
+      return null;
+    } finally {
+      await statement.finalizeAsync();
+    }
+  }
+
+
+  return { createUser, readUser, updateUser, deletUser, recuperaSenha }
 }

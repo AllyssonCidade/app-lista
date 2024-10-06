@@ -163,7 +163,7 @@ function AtualizarDados({ navigation }: PropsScreensApp) {
                   titulo="Nova Senha"
                   onChangeText={onChange}
                   value={value}
-                  placeholder="Digite sua nova senha"
+                  placeholder="Repita sua senha atual ou digite uma nova para alterar"
                   types="text"
                 />
               )}
