@@ -4,6 +4,9 @@
 
 Um aplicativo simples de lista de tarefas para gerenciar seu dia a dia, desenvolvido com React Native e Expo, utilizando Expo-SQLite para armazenamento local.
 
+DISPONÍVEL NO LINK:
+https://expo.dev/accounts/allyss0n/projects/app-lista/builds/65edf772-df18-45bd-9c2b-8c07191df860
+
 ## Referência
 
 [Documentação do React-Native](https://reactnative.dev/)
