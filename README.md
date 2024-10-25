@@ -6,7 +6,7 @@ Um aplicativo simples de lista de tarefas para gerenciar seu dia a dia, desenvol
 
 ## Referência
 
-[Documentação do React](https://reactnative.dev/)
+[Documentação do React-Native](https://reactnative.dev/)
 
 [Documentação do Expo](https://docs.expo.dev/)
 
@@ -30,7 +30,7 @@ O aplicativo não possui uma API externa, mas você pode estender sua funcionali
 
 ## Etiquetas
 
-- React
+- React Native
 - Expo
 - SQLite
 - To-Do List
@@ -54,7 +54,7 @@ Aqui está a tabela atualizada com as cores que você forneceu:
 ## Documentação
 Aqui estão os links para a documentação das principais bibliotecas e tecnologias usadas:
 
-- [Documentação do React](https://reactnative.dev/)
+- [Documentação do React-Native](https://reactnative.dev/)
 - [Documentação do Expo](https://docs.expo.dev/)
 
 
